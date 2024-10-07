@@ -3,61 +3,55 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class BiodataApp extends JFrame {
-    private JTextField nameField, phoneField;
-    private JTextArea biodataArea;
-    private JButton addButton;
-
     public BiodataApp() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Biodata Teman");
-
-        JPanel mainPanel = new JPanel(new BorderLayout());
-
-        // Input panel
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2));
-        inputPanel.add(new JLabel("Nama:"));
-        nameField = new JTextField(20);
-        inputPanel.add(nameField);
-        inputPanel.add(new JLabel("Nomor Telepon:"));
-        phoneField = new JTextField(20);
-        inputPanel.add(phoneField);
-        addButton = new JButton("Tambah");
-        inputPanel.add(addButton);
-
-        // Text area
-        biodataArea = new JTextArea(10, 30);
-        biodataArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(biodataArea);
-
-        mainPanel.add(inputPanel, BorderLayout.NORTH);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String phone = phoneField.getText();
-                if (!name.isEmpty() && !phone.isEmpty()) {
-                    biodataArea.append(name + " - " + phone + "\n");
-                    biodataArea.append("============================\n");
-                    nameField.setText("");
-                    phoneField.setText("");
-                } else {
-                    JOptionPane.showMessageDialog(BiodataApp.this, "Nama dan nomor telepon harus diisi!");
-                }
-            }
-        });
-
-        this.add(mainPanel);
-        this.pack();
-        this.setVisible(true);
+      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  
+      JLabel labelInput = new JLabel("Input Nama: ");
+      labelInput.setBounds(130,40,100,20);
+  
+      JTextField dataNama = new JTextField();
+      dataNama.setBounds(130,60,100,30);
+  
+      JLabel labelNomor = new JLabel("Input Nomor: ");
+      labelNomor.setBounds(130,100,100,20);
+  
+      JTextField dataNomor = new JTextField();
+      dataNomor.setBounds(130,120,100,30);
+  
+      JButton button = new JButton("Klik");
+      button.setBounds(130,160,100,40);
+  
+      JTextArea textArea = new JTextArea("");
+      textArea.setBounds(100,210,160,160);
+  
+      button.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          String nama = dataNama.getText();
+          String nomor = dataNomor.getText();
+          textArea.append("Nama: " + nama +"\n"+"Nomor: " + nomor+"\n");
+          textArea.append("=================================="+"\n");
+          dataNama.setText("");
+          dataNomor.setText("");
+        }
+      });
+  
+      this.add(labelInput);
+      this.add(dataNama);
+      this.add(labelNomor);
+      this.add(dataNomor);
+      this.add(button);
+      this.add(textArea);
+  
+      this.setSize(400,500);
+      this.setLayout(null);
     }
-
+  
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new BiodataApp();
-            }
-        });
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          BiodataApp l = new BiodataApp();
+          l.setVisible(true);
+        }
+      });
     }
-}
+  }
