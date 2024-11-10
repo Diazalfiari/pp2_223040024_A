@@ -3,43 +3,46 @@ package model;
 public class Biodata {
     private String id;
     private String nama;
-    private String jenis_kelamin;
     private String alamat;
+    private String telepon;
 
-    public void setId(String id) {
+    public Biodata(String id, String nama, String alamat, String telepon) {
         this.id = id;
+        this.nama = nama;
+        this.alamat = alamat;
+        this.telepon = telepon;
     }
 
+    // Getter and Setter
     public String getId() {
         return id;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNama() {
         return nama;
     }
 
-    public void setJenis_kelamin(String jenis_kelamin) {
-        this.jenis_kelamin = jenis_kelamin;
-    }
-
-    public String getJenis_kelamin() {
-        return jenis_kelamin;
-    }
-
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public String getAlamat() {
         return alamat;
     }
 
-    public void setJenisMember(JenisMember jenisMember) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setJenisMember'");
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
+    public String getTelepon() {
+        return telepon;
+    }
+
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
     }
 }

@@ -17,7 +17,7 @@ public class MySqlConnection {
         return instance;
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

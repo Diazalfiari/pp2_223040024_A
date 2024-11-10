@@ -1,104 +1,69 @@
 package dao;
 
-import java.sql.Statement;
 import db.MySqlConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import model.Biodata;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Biodata;
-import model.JenisMember;
-import model.Member;
-
 public class BiodataDao {
-    public int insert(Biodata biodata) {
-        int result = -1;
-
-        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO detail (id, nama, jenis_kelamin, alamat) VALUES (?, ?, ?, ?)");
-            statement.setString(1, biodata.getId());
-            statement.setString(2, biodata.getNama());
-            statement.setString(3, biodata.getJenis_kelamin());
-            statement.setString(4, biodata.getAlamat());
-
-            result = statement.executeUpdate();
+    public void save(Biodata biodata) {
+        String query = "INSERT INTO biodata (id, nama, alamat, telepon) VALUES (?, ?, ?, ?)";
+        try (Connection connection = MySqlConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, biodata.getId());
+            ps.setString(2, biodata.getNama());
+            ps.setString(3, biodata.getAlamat());
+            ps.setString(4, biodata.getTelepon());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return result;
     }
 
-    public int update(Biodata biodata) {
-        int result = -1;
-        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE detail SET nama = ?, jenis_kelamin = ?, alamat = ?  WHERE id = ?");
-            statement.setString(1, biodata.getNama());
-            statement.setString(2, biodata.getJenis_kelamin());
-            statement.setString(3, biodata.getAlamat());
-            statement.setString(4, biodata.getId());
-
-            result = statement.executeUpdate();
+    public void update(Biodata biodata) {
+        String query = "UPDATE biodata SET nama = ?, alamat = ?, telepon = ? WHERE id = ?";
+        try (Connection connection = MySqlConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, biodata.getNama());
+            ps.setString(2, biodata.getAlamat());
+            ps.setString(3, biodata.getTelepon());
+            ps.setString(4, biodata.getId());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
-    public int delete(Biodata biodata) {
-        int result = -1;
-        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM detail WHERE id = ?");
-            statement.setString(1, biodata.getId());
-
-            result = statement.executeUpdate();
+    public void delete(String id) {
+        String query = "DELETE FROM biodata WHERE id = ?";
+        try (Connection connection = MySqlConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, id);
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
-    public List<Biodata> findAll() {
+    public List<Biodata> getAll() {
         List<Biodata> list = new ArrayList<>();
-        try (Connection connection = MySqlConnection.getInstance().getConnection()) {
-            Statement statement = connection.createStatement();
-            try (ResultSet resultSet = statement.executeQuery(
-                    "SELECT detail.id, detail.nama, detail.jenis_member_id, jenis_member.id AS jenis_member_id, jenis_member.nama AS jenis_member_nama "
-                            +
-                            "FROM member " +
-                            "JOIN jenis_member ON jenis_member.id = member.jenis_member_id")) {
-
-                // Mengambil data dari ResultSet
-                while (resultSet.next()) {
-                    // Membuat objek Member
-                    Biodata member = new Biodata();
-                    member.setId(resultSet.getString("id"));
-                    member.setNama(resultSet.getString("nama"));
-
-                    // Membuat objek JenisMember yang terkait
-                    JenisMember jenisMember = new JenisMember();
-                    jenisMember.setId(resultSet.getString("jenis_member_id"));
-                    jenisMember.setNama(resultSet.getString("jenis_member_nama"));
-
-                    // Mengaitkan JenisMember dengan Member
-                    member.setJenisMember(jenisMember);
-
-                    // Menambahkan Member ke dalam list
-                    list.add(member);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        String query = "SELECT * FROM biodata";
+        try (Connection connection = MySqlConnection.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                Biodata biodata = new Biodata(
+                        rs.getString("id"),
+                        rs.getString("nama"),
+                        rs.getString("alamat"),
+                        rs.getString("telepon"));
+                list.add(biodata);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
-
 }
