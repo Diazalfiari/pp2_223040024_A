@@ -17,9 +17,9 @@ public class MemberButtonSimpanActionListener implements ActionListener {
         this.memberDao = memberDao;
     }
 
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         String nama = this.memberFrame.getName();
-        if(nama.isEmpty()){
+        if (nama.isEmpty()) {
             this.memberFrame.showAlert("Nama tidak boleh kosong");
         } else {
             JenisMember jenisMember = this.memberFrame.getJenisMember();
@@ -30,7 +30,7 @@ public class MemberButtonSimpanActionListener implements ActionListener {
             member.setJenisMemberId(jenisMember.getId());
             this.memberFrame.addMember(member);
             this.memberDao.insert(member);
-            
+
         }
     }
 

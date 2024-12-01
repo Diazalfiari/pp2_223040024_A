@@ -1,10 +1,10 @@
 package main;
 
 import dao.JenisMemberDao;
-import dao.MemberDao;   
+import dao.MemberDao;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream; 
+import java.io.InputStream;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
