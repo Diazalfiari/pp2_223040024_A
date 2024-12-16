@@ -8,23 +8,24 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.*;
 
 import java.io.IOException;
+
 /**
  *
- * @author thega
+ * @author Diaza
  */
 public class MyBatisUtil {
     private static SqlSessionFactory sqlSessionFactory;
 
     static {
-            try {
-                sqlSessionFactory = new SqlSessionFactoryBuilder() 
-                    .build(Resources.getResourceAsStream ("mybatis-config.xml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            sqlSessionFactory = new SqlSessionFactoryBuilder()
+                    .build(Resources.getResourceAsStream("mybatis-config.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static SqlSession getSqlSession() { 
+    public static SqlSession getSqlSession() {
         return sqlSessionFactory.openSession(true);
     }
 }
