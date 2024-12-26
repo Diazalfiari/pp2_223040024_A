@@ -36,17 +36,38 @@ public class MainFrame {
             
             //Tombol aksi
             startButton.addActionListener(e -> {
-                //Update progress bar 1% per detik
-                for (int i = 0; i <= 60; i++) {
-                    progressBar.setValue(i);
-                    try {
-                        Thread.sleep(1000);
-                    }catch (Exception ex) {
-                        System.err.println(ex.getMessage());
+                startButton.setEnabled(false); //Nonaktifkan tombol saat proses berjalan
+                statusLabel.setText("Proses berjalan...");
+                
+                //Buat Swingworker untuk menangani tugas berat
+                SwingWorker<Void, Integer> worker = new SwingWorker<>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        //Simulasi tugas berat
+                        for (int i = 0; i <= 100; i++) {
+                            Thread.sleep(50); //Simulasi delay
+                            publish(i); //Perbarui progres
+                        }
+                        return null;
                     }
-                }
-            }
-            );
+                    
+                    @Override
+                    protected void process(List<Integer> chunks) {
+                        //Perbarui progress bar
+                        int latestProgress = chunks.get(chunks.size() - 1);
+                        progressBar.setValue(latestProgress);
+                    }
+                    
+                    @Override
+                    protected void done() {
+                        //Aksi setelah tugas selesai
+                        startButton.setEnabled(true);
+                        statusLabel.setText("Proses selesai");
+                    }
+                };
+                //jalankan SwingWorker
+                worker.execute();
+            });
             //Tampilkan frame
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
