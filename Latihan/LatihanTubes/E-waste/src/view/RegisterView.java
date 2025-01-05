@@ -91,17 +91,19 @@ public class RegisterView extends JFrame {
         gbc.gridy = 1;
         contentPanel.add(txtUsername, gbc);
         
+        
         gbc.gridy = 2;
-        contentPanel.add(new JLabel("Password"), gbc);
-        
-        gbc.gridy = 3;
-        contentPanel.add(txtPassword, gbc);
-        
-        gbc.gridy = 4;
         contentPanel.add(new JLabel("Email"), gbc);
         
-        gbc.gridy = 5;
+        gbc.gridy = 3;
         contentPanel.add(txtEmail, gbc);
+        
+        
+        gbc.gridy = 4;
+        contentPanel.add(new JLabel("Password"), gbc);
+        
+        gbc.gridy = 5;
+        contentPanel.add(txtPassword, gbc);
         
         gbc.gridy = 6;
         gbc.insets = new Insets(30, 10, 10, 10);
